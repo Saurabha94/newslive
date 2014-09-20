@@ -1,0 +1,59 @@
+Function to display the live video:
+
+function [im] = showimg(vid,test,nframes)
+       % i=1;
+       % frame=zeros(1,20000);
+       % for k=2:20000
+        %    frame(k) = frame(k-1) + 5;
+       % end
+for k=1:nframes
+img=read(vid,k);
+%m=size(img,1);
+%n=size(img,2);
+%frame=struct('cdata',1,'colormap',cell([1 36]));
+t=imgc(img,test);
+if t==1
+figure(1),imshow(img,[]);
+        % im{i}=img;
+%frame(i)=im2frame(img);
+%i=i+1;
+end
+end
+%implay(frame);
+end
+
+
+Function to check if given frame is live or not:
+
+function [t] = live(f)
+if f<0.001
+    %display('Live');
+    t=1;
+else
+    t=0;
+    %display('Not Live');
+end
+end
+
+
+Function to crop the image:
+
+function [f] = imgc(img1,test)
+%crop=imcrop(img1,[625.5 438.5 77 24]);
+%crop=imcrop(img1,[473.5 390.5 55 18]);
+img1 = im2double(img1);
+hn1 = imhist(img1(:))./numel(img1);
+hn2= hst(test);
+f = sum((hn1 - hn2).^2);
+%t=live(f);
+end
+
+
+Function to find the histogram of a given image:
+
+function [hs] = hst(img)
+img = im2double(img);
+hs = imhist(img(:))./numel(img);
+end
+
+ 
